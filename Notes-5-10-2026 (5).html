@@ -1,0 +1,248 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global Multiplayer Room Code Network Engine</title>
+  <style>
+    body {
+      background: #06060c;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .lobby-container {
+      border: 2px solid #00ff00;
+      padding: 30px;
+      border-radius: 12px;
+      background: #0f0f18;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(0,255,0,0.3);
+      width: 440px;
+    }
+
+    h2 {
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0,255,0,0.5);
+      margin-top: 0;
+      letter-spacing: 1px;
+    }
+
+    .section-box {
+      background: #000000;
+      border: 1px solid #222;
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .room-code-text {
+      font-size: 32px;
+      color: #ffff00;
+      font-weight: bold;
+      letter-spacing: 5px;
+      text-shadow: 0 0 8px rgba(255,255,0,0.4);
+      margin-top: 5px;
+    }
+
+    .input-field {
+      width: 90%;
+      background: #111;
+      color: #00ff00;
+      border: 2px solid #00ff00;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 3px;
+      border-radius: 6px;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    .input-field:focus {
+      outline: none;
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    .btn {
+      background: #001f00;
+      color: #00ff00;
+      border: 2px solid #00ff00;
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 14px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      background: #00ff00;
+      color: #000000;
+      box-shadow: 0 0 15px #00ff00;
+    }
+
+    #status-display {
+      font-size: 13px;
+      color: #ffaa00;
+      font-weight: bold;
+      margin-top: 15px;
+      font-family: monospace;
+      line-height: 1.4;
+    }
+  </style>
+
+  <!-- AUTOMATICALLY IMPORT THE GOOGLE FIREBASE CLOUD DATABASE ENGINE INFRASTRUCTURE -->
+  <script src="https://gstatic.com"></script>
+  <script src="https://gstatic.com"></script>
+</head>
+<body>
+
+  <div class="lobby-container">
+    <h2>GLOBAL NETWORK LOBBY</h2>
+    <p style="color: #666; font-size: 12px; margin-top: -5px;">Live Cloud Handshake Connection Token System</p>
+
+    <!-- HOSTING INTERFACE BOX -->
+    <div class="section-box">
+      <div style="color: #aaa; font-size: 11px; text-align: left;">&gt; HOST NEW WEB ROOM:</div>
+      <div class="room-code-text" id="generated-token">------</div>
+      <button class="btn" id="btn-host" style="margin-top: 10px; padding: 6px; font-size: 11px;">OPEN LIVE ROOM OVER CLOUD</button>
+    </div>
+
+    <div style="color: #444; font-size: 12px;">- OR -</div>
+
+    <!-- JOINING INTERFACE BOX -->
+    <div class="section-box">
+      <div style="color: #aaa; font-size: 11px; text-align: left;">&gt; ENTER ACTIVE ONLINE ROOM CODE:</div>
+      <input type="text" id="join-code-input" class="input-field" maxlength="6" placeholder="ENTER CODE">
+      <button class="btn" id="btn-join" style="margin-top: 10px; padding: 12px;">JOIN LIVE GLOBAL ROOM</button>
+    </div>
+
+    <!-- REAL-TIME GLOBAL NETWORK STATUS REEDBACK FEED -->
+    <div id="status-display">STATUS: OFFLINE (AWAITING SELECTION)</div>
+  </div>
+
+  <script>
+    // ============================================================================
+    // STEP 1: DROP YOUR FREE GOOGLE FIREBASE CONFIGURATION METRICS RIGHT HERE
+    // ============================================================================
+    // To make this fully functional over the live internet, go to ://google.com, 
+    // create a free project, click "Realtime Database", and copy your config keys here:
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY_HERE",
+        authDomain: "YOUR_PROJECT_://firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT_://firebaseio.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_://appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    
+    // Safety check fallback loop so the page initializes textures even before you insert your keys
+    if(firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    // --- AUTOMATED ROOM CODE CONFIGURATION SEED MATRIX ---
+    const tokenCharacters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let sessionHostCode = "";
+    for (let i = 0; i < 6; i++) {
+        sessionHostCode += tokenCharacters.charAt(Math.floor(Math.random() * tokenCharacters.length));
+    }
+    document.getElementById('generated-token').innerText = sessionHostCode;
+
+    const statusText = document.getElementById('status-display');
+
+    // --- ACTION ROUTING 1: ONLINE HOSTING CONFIGURATION LOGIC ---
+    document.getElementById('btn-host').addEventListener('click', () => {
+        if(firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
+            statusText.style.color = "#ffaa00";
+            statusText.innerText = `LOCAL SIMULATION ONLY:\nOpen room [${sessionHostCode}]. Please replace database metrics lines in the script code to connect live globally!`;
+            return;
+        }
+
+        statusText.style.color = "#00ff00";
+        statusText.innerText = `ROOM [${sessionHostCode}] OPEN ACTIVE!\nCloud server monitoring line initialized. Waiting for global peer...`;
+
+        // Write the active hosting session directly up onto the global internet cloud node parameters
+        let roomRef = firebase.database().ref('ActiveWebRooms/' + sessionHostCode);
+        roomRef.set({
+            hostOnline: true,
+            peerConnected: false,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
+        // Background listener tracking thread over the cloud network lines
+        roomRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data && data.peerConnected === true) {
+                statusText.style.color = "#ffff00";
+                statusText.innerText = `SUCCESS! A remote player has entered your room code over the internet and established a live handshake link!`;
+            }
+        });
+    });
+
+    // --- ACTION ROUTING 2: ONLINE JOINING INTERFACE LOGIC ---
+    document.getElementById('btn-join').addEventListener('click', () => {
+        let typedInputCode = document.getElementById('join-code-input').value.trim().toUpperCase();
+
+        if (typedInputCode === "") {
+            statusText.style.color = "#ff0000";
+            statusText.innerText = "ERROR: Please type a valid 6-digit room code input first.";
+            return;
+        }
+
+        if(firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
+            statusText.style.color = "#ff0000";
+            statusText.innerText = "ERROR: Cannot read cloud database lines. Please enter your Firebase configuration properties to connect over the internet.";
+            return;
+        }
+
+        statusText.style.color = "#ffaa00";
+        statusText.innerText = `Searching cloud database node for room [${typedInputCode}]...`;
+
+        let targetRoomRef = firebase.database().ref('ActiveWebRooms/' + typedInputCode);
+        
+        targetRoomRef.once('value', (snapshot) => {
+            if (snapshot.exists()) {
+                // Modify the cloud properties to confirm the peer handshake link connection
+                targetRoomRef.update({
+                    peerConnected: true
+                });
+                statusText.style.color = "#00ff00";
+                statusText.innerText = `SUCCESS! Connected live over the cloud server network to room: [${typedInputCode}]`;
+            } else {
+                statusText.style.color = "#ff0000";
+                statusText.innerText = `ERROR: Active room code [${typedInputCode}] was not found on the network database. Check the code and try again.`;
+            }
+        });
+    });
+
+    // Automatically clean database nodes up on browser exit
+    window.addEventListener('beforeunload', () => {
+        if(firebaseConfig.apiKey !== "YOUR_API_KEY_HERE" && sessionHostCode !== "") {
+            firebase.database().ref('ActiveWebRooms/' + sessionHostCode).remove();
+        }
+    });
+  </script>
+</body>
+</html>
+</pre>
+        </body>
+    </html>
